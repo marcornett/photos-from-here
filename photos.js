@@ -40,15 +40,17 @@ function grabDataPromise(location, userInputSearch = userInput) {
 
     let dataPromise = responsePromise.then(response => response.json())
     dataPromise.then(function (dataObj) {
-        let photosObj = dataObj.photos.photo
-        displayImage(photosObj)
+        let photosArr = dataObj.photos.photo
+        addPhotoObjToArr(photosArr)
+        displayImage(photosArr[0])
     })
 }
 
 let photosArr = []
-function addPhotoObjToArr(obj) {
-    photosArr.push(obj)
-    nextImageSelection(photosArr)
+function addPhotoObjToArr(arr) {
+    arr.forEach(function(photoObj){
+        photosArr.push(photoObj)
+    })
 }
 
 
@@ -56,23 +58,28 @@ function displayImage(photosObj) {
     let photoUrl = 'Link to image'
     let link = document.createElement('a')
     let image = document.createElement('img')
-    addPhotoObjToArr(photosObj)
-    photosObj.forEach(function (photo) {
-        const url = constructImageURL(photo)
+        console.log(photosObj)
+        const url = constructImageURL(photosObj)
         image.setAttribute('src', url)
         // Find a link to the flickr image page instead of just the image
         link.setAttribute('href', url)
         link.appendChild(document.createTextNode(photoUrl))
         document.body.appendChild(link)
         document.body.appendChild(image)
-    })
 }
 
 function nextImageSelection(arr) {
+    let counter = 1
     let nextPhotoButton = document.querySelector('#next')
     nextPhotoButton.addEventListener('click', function (event) {
-        arr.forEach(function(photo){
-            console.log(photo)
-        })
+        if(counter < 5){
+            displayImage(arr[counter])
+            console.log(counter)
+            counter++
+        } else{
+            displayImage(arr[counter])
+            counter = 0
+        }
     })
 }
+nextImageSelection(photosArr)
