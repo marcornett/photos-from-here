@@ -46,10 +46,10 @@ function grabDataPromise(location, userInputSearch = userInput) {
 
     let dataPromise = responsePromise.then(response => response.json())
     dataPromise.then(function (dataObj) {
-        let photosArr = dataObj.photos.photo
+        let photosObj = dataObj.photos.photo
         removePhotosFromArr()
-        addPhotoObjToArr(photosArr)
-        displayImage(photosArr[0])
+        addPhotoObjToArr(photosObj)
+        displayImage(photosObj[0])
     })
 }
 
@@ -65,15 +65,16 @@ function removePhotosFromArr() {
 }
 
 let photoUrl = 'Link to image'
-let link = document.createElement('a')
+let link = document.querySelector('a')
 let imageContainer = document.querySelector('#image-container')
+let titleOfImage = document.querySelector('#image-title')
+titleOfImage.textContent = 'No Title'
+
 
 function displayImage(photosObj) {
     const imageContainerURL = "url(" + constructImageURL(photosObj) + ")"
     imageContainer.style.backgroundImage = imageContainerURL
-    // Find a link to the flickr image page instead of just the image
-    // link.href = url
-    // link.appendChild(document.createTextNode(photoUrl))
+    titleOfImage.textContent = photosObj.title
 }
 
 function nextImageSelection(arr) {
