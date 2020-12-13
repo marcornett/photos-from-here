@@ -16,14 +16,19 @@ header h3{
     font-weight: 100;
 }
 
+main{
+    text-align: center;
+}
+
 #image-title{
     font-style: italic;
     margin-bottom: 30px;
     color: #ffffffd7;
     font-size: 16px;
-    width: 400px;
+    width: 500px;
     margin: 0 auto;
     background-color: #a73f2d;
+    text-align: center;
 }
 
 #image-container{
@@ -33,6 +38,7 @@ header h3{
     background-repeat: no-repeat;
     background-position: 50% 50%;
     margin: 0 auto;
+    border-radius: 0px 0px 10px 10px;
 }
 
 #search-content{
@@ -64,8 +70,6 @@ header h3{
 	padding: 9px 23px;
 }
 
-
-
 #next-container{
     text-align: center;
     margin-top: 20px;
@@ -73,6 +77,11 @@ header h3{
 
 @media all and (max-width: 600px){
     #image-container{
-        width: 100%;
+    }
+}
+
+@media all and (min-width: 600px){
+    #user-input{
+        width: 500px;
     }
 }

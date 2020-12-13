@@ -4,7 +4,7 @@ function userLocationInput(location) {
     userLocation = location.coords
     grabDataPromise(userLocation)
 }
-const fallBackLocation = { latitude: 32.715736, longitude: -117.161087 }
+const fallBackLocation = { latitude: 39.768402, longitude: -86.158066 }
 function useFallBackLocationInput(err) {
     userLocation = fallBackLocation
     grabDataPromise(userLocation)
@@ -12,7 +12,6 @@ function useFallBackLocationInput(err) {
 const options = { maximumAge: 0, enableHighAccuracy: true }
 
 navigator.geolocation.getCurrentPosition(userLocationInput, useFallBackLocationInput, options)
-
 
 function userSearchByText() {
     let submitButton = document.querySelector('#submit')
@@ -24,10 +23,12 @@ function userSearchByText() {
 }
 
 function constructImageURL(photoObj) {
-    const { farm, server, id, secret } = photoObj
-    return "https://farm" + farm +
-        ".staticflickr.com/" + server +
-        "/" + id + "_" + secret + ".jpg";
+    if (photoObj) {
+        const { farm, server, id, secret } = photoObj
+        return "https://farm" + farm +
+            ".staticflickr.com/" + server +
+            "/" + id + "_" + secret + ".jpg";
+    }
 }
 
 function grabDataPromise(location, userInputSearch = userInput) {
@@ -73,12 +74,15 @@ titleOfImage.textContent = 'No Title'
 
 function displayImage(photosObj) {
     const imageContainerURL = "url(" + constructImageURL(photosObj) + ")"
+    let urlLink = constructImageURL(photosObj)
     imageContainer.style.backgroundImage = imageContainerURL
-    titleOfImage.textContent = photosObj.title
+    titleOfImage.textContent = photosObj?.title
+    link.textContent = "Image Link"
+    link.setAttribute('href', urlLink)
 }
 
+let counter = 1
 function nextImageSelection(arr) {
-    let counter = 1
     let nextPhotoButton = document.querySelector('#next')
     nextPhotoButton.addEventListener('click', function (event) {
         if (counter < 4) {
@@ -91,3 +95,17 @@ function nextImageSelection(arr) {
     })
 }
 nextImageSelection(photosArr)
+
+function previousImageSelection(arr) {
+    let previousPhotoButton = document.querySelector('#previous')
+    previousPhotoButton.addEventListener('click', function (event) {
+        if (counter > 0) {
+            displayImage(arr[counter])
+            counter--
+        } else {
+            displayImage(arr[counter])
+            counter = 4
+        }
+    })
+}
+previousImageSelection(photosArr)
